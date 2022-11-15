@@ -1,0 +1,17 @@
+.Todo {
+    background-color: tomato;
+    color: white;
+    display: flex;
+
+}
+
+.Todo-label {
+    padding: 0 50px;
+}
+
+.fa-solid {
+    margin: 2px;
+    padding: 0 2px;
+    font-size: 1.25rem;
+    
+}
