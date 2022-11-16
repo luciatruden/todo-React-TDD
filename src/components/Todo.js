@@ -34,7 +34,7 @@ function Todo(props){
                 <input className="Todo-editInput" type="text" 
                         defaultValue={todoState.todo}
                         onChange={handleEdit}></input>
-                <button className="Todo-editButton" alt="Save edit" onClick={handleSave}>Edit</button>
+                <button data-testid="editSave" className="Todo-editButton" onClick={handleSave}>Edit</button>
             </form>
         </div>
     return ( editing ? todoEdit : todoLabel );
