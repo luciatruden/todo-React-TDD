@@ -1,0 +1,8 @@
+/*   */
+
+.NewTodoForm button {
+    background-color: tomato;
+    border: 1px solid white;
+    color: white;
+    padding: 5px;
+}

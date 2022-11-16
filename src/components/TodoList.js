@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Todo from "./Todo";
 import './TodoList.css';
 import { v4 as uuidv4 } from "uuid";
+import NewTodoForm from "./NewTodoForm";
 
 function TodoList(props) {
 
@@ -26,13 +27,18 @@ function TodoList(props) {
         )}))
     }
 
+    function addTodo(todoLabel){
+        console.log(todoLabel);
+        console.log("addTodo in TodoList")
+    }
+
     return (
         <div className="TodoList">
             <h1> Todo List </h1>
             {todoList.todos.map((td) => 
                     ( <Todo key={td.id} id={td.id} todo={td.todo} editTodo={editTodo} deleteTodo={deleteTodo} /> )
              )}
-            
+            <NewTodoForm addTodo={addTodo} />
         </div>
     )
 }
