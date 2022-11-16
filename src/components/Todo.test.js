@@ -1,16 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Todo from "./Todo";
 
-// jest.mock('../__mocks__/TodoList', () => ({
-//     __esModule:true,
-//     default: {
-//         editTodo: (todo) => ( console.log("mock" + todo))
-//     }
-// }));
-
-//jest.mock('../__mocks__/TodoList')
-
-
 
 test("todo label should be rendered", () => {
     const id = "234";
@@ -89,7 +79,7 @@ test("todo label should change when edited", () => {
     expect(editInputElem.value).toBe(newTodo);
 })
 
-
+//mock function passed in component's props
 const editTodo = jest.fn();
 
 test("todoEdit should not be rendered after edit saved", () => {
