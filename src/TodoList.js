@@ -11,16 +11,23 @@ function TodoList(props) {
                                                 {id: 876, todo: "go to gym"},
                                             ]})
 
-    function handleEdit(todo){
+    function editTodo(todo){
 
         console.log("edit")
+        console.log(todo);
+        setTodoList(currSt => ({...currSt, todos: currSt.todos.map( 
+                                        (td) => (td.id === todo.id 
+                                            ? {...td, todo: todo.todo} 
+                                            : td)
+        ) }))
 
     }
 
     return (
         <div className="TodoList">
+            <h1> Todo List </h1>
             {todoList.todos.map((td) => 
-                    ( <Todo id={td.id} todo={td.todo} handleEdit={handleEdit}/> )
+                    ( <Todo id={td.id} todo={td.todo} editTodo={editTodo}/> )
              )}
             
         </div>
