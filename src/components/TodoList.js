@@ -13,22 +13,24 @@ function TodoList(props) {
                                             ]})
 
     function editTodo(todo){
-
-        console.log("edit")
-        console.log(todo);
         setTodoList(currSt => ({...currSt, todos: currSt.todos.map( 
                                         (td) => (td.id === todo.id 
                                             ? {...td, todo: todo.todo} 
                                             : td)
         ) }))
+    }
 
+    function deleteTodo(todo){
+        setTodoList(currSt => ({...currSt, todos: currSt.todos.filter(
+                                        (td) => (td.id !== todo.id )
+        )}))
     }
 
     return (
         <div className="TodoList">
             <h1> Todo List </h1>
             {todoList.todos.map((td) => 
-                    ( <Todo key={td.id} id={td.id} todo={td.todo} editTodo={editTodo}/> )
+                    ( <Todo key={td.id} id={td.id} todo={td.todo} editTodo={editTodo} deleteTodo={deleteTodo} /> )
              )}
             
         </div>

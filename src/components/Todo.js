@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import './Todo.css';
 
 function Todo(props){
-    const { id, todo, editTodo } = props;
+    const { id, todo, editTodo, deleteTodo } = props;
 
     const [editing, setEditing] = useState(false);
     const [todoState, setTodoState] = useState({id: id, todo: todo});
@@ -21,11 +21,14 @@ function Todo(props){
         setEditing(false);
     }
 
+    function handleDelete(evt){
+        deleteTodo(todoState);
+    }
     const todoLabel = 
         <div className="Todo">
             <div className="Todo-label" id={id}>{todoState.todo}</div>
             <i data-testid="editForm" className="fa-solid fa-pencil" onClick={handleEditing}></i>
-            <i className="fa-solid fa-trash"></i>
+            <i data-testid="delete" className="fa-solid fa-trash" onClick={handleDelete}></i>
         </div>;
 
     const todoEdit = 

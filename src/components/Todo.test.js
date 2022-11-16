@@ -97,6 +97,22 @@ test("todoEdit should not be rendered after edit saved", () => {
     expect(screen.queryByRole("form")).not.toBeInTheDocument();
 })
 
+const deleteTodo = jest.fn();
+
+test("todo should disappear when delete clicked", () => {
+    const id = "234";
+    const todo = "wash towels";
+    render(<Todo id={id} todo={todo} editTodo={editTodo} deleteTodo={deleteTodo} />);
+
+    //fire clicking on trash button
+    fireEvent.click(screen.getByTestId("delete"));
+
+    expect(deleteTodo).toBeCalledTimes(1);
+
+    //expect(screen.queryByText(todo)).not.toBeInTheDocument();
+
+})
+
 
 
 
