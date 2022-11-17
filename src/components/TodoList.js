@@ -34,8 +34,12 @@ function TodoList(props) {
     }
 
     function addTodo(todoLabel){
-        console.log(todoLabel);
+
+        const newTodo = {id: uuidv4(), todo: todoLabel};
+
+        console.log(newTodo);
         console.log("addTodo in TodoList")
+        setTodoList(currSt => ({...currSt, todos: [...currSt.todos, newTodo]}))
     }
 
     return (

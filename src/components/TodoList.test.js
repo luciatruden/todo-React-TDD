@@ -9,9 +9,10 @@ describe('TodoList', () => {
         return {
             todos:              todos,
             heading:            screen.getByText(/todo list/i),
-            newTodoForm:        screen.getByPlaceholderText("New Todo"),
+            newTodoInput:       screen.getByPlaceholderText("New Todo"),
+            addTodoButton:      screen.getByText(/add todo/i),
             allDeleteButtons:   screen.getAllByTestId("delete"),
-            allEditForms:           screen.getAllByTestId("editForm"),
+            allEditForms:       screen.getAllByTestId("editForm"),
     
         };
     }
@@ -36,9 +37,9 @@ describe('TodoList', () => {
     
 
     it("renders the new todo form", () => {
-        const { newTodoForm } = renderTodoListScreen();
+        const { newTodoInput } = renderTodoListScreen();
     
-        expect(newTodoForm).toBeInTheDocument();
+        expect(newTodoInput).toBeInTheDocument();
     });
 
     it("removes a todo when its delete is clicked", () => {
@@ -63,7 +64,6 @@ describe('TodoList', () => {
         fireEvent.click(allEditForms[0]);
 
         //get input element for first todo and change its value
-        //const editFormElem = screen.getByText(todos[0]);
         const editInput = screen.getByPlaceholderText(todos[0]);
         fireEvent.change(editInput, { target: {value: testTodo}});
 
@@ -75,7 +75,25 @@ describe('TodoList', () => {
         expect(screen.queryByText(todos[0])).not.toBeInTheDocument();
         //check new label is in document
         expect(screen.getByText(testTodo)).toBeInTheDocument();
+    })
 
+    it("adds new todo to list", () => {
+        const { todos, newTodoInput, addTodoButton } = renderTodoListScreen();
+
+        const newTodo = "testTodo";
+
+        //change input on NewTodo form
+        fireEvent.change(newTodoInput, { target: { value: newTodo } });
+
+        //click ADD TODO
+        fireEvent.click(addTodoButton);
+
+        //check there is one more todo in the list than before
+        expect(screen.getAllByTestId("delete").length).toBe(todos.length + 1);
+
+        //check the test todo is found in the document
+        expect(screen.getByText(newTodo)).toBeInTheDocument();
+        
     })
 })
 
@@ -89,8 +107,7 @@ describe('TodoList', () => {
 /**
  * 
  
- * 
- * on edit, todo should change
+ *
  * on add, todo should be added
  * 
  * 
