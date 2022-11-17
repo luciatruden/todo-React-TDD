@@ -1,117 +1,113 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Todo from "./Todo";
 
+describe('Todo', () => {
+    function renderTodoScreen() {
+        const id = "234";
+        const todo = "wash towels";
 
-test("todo label should be rendered", () => {
-    const id = "234";
-    const todo = "wash towels";
-    render(<Todo id={id} todo={todo} />);
+        //mock functions
+        const editTodo = jest.fn();
+        const deleteTodo = jest.fn();
 
-    const todoLabelElem = screen.queryByText(todo);
-    expect(todoLabelElem).toBeInTheDocument();
-})
+        render(<Todo id={id} todo={todo} editTodo={editTodo} deleteTodo={deleteTodo} />);
+        //<Todo id={id} todo={todo} editTodo={editTodo} deleteTodo={deleteTodo} />
 
-test("todo label should display todo", () => {
-    const id = "234";
-    const todo = "wash towels";
-    render(<Todo id={id} todo={todo} />);
+        return( {
+            todo:           todo,
+            label:          screen.queryByText(todo),
+            editForm:       screen.queryByRole("form"),
+            pencilButton:   screen.getByTestId("editForm"),
+            deleteButton:   screen.getByTestId("delete"),
+            editTodo,
+            deleteTodo
+        });
 
-    const todoLabelElem = screen.queryByText(todo);
-    expect(todoLabelElem).toHaveTextContent(todo);
-})
+    }
 
-test("todoEdit should not be rendered", () => {
-    const id = "234";
-    const todo = "wash towels";
-    render(<Todo id={id} todo={todo} />);
-
-    expect(screen.queryByRole("form")).not.toBeInTheDocument();
-})
-
-test("todo label should not be rendered while editing", () => {
-    const id = "234";
-    const todo = "wash towels";
-    render(<Todo id={id} todo={todo} />);
-
-    // fire clicking on Edit button
-    fireEvent.click(screen.getByTestId("editForm"));
-
-    expect(screen.queryByText(todo)).not.toBeInTheDocument();
-})
-
-test("todo edit form should be rendered while editing", () => {
-    const id = "234";
-    const todo = "wash towels";
-    render(<Todo id={id} todo={todo} />);
-
-    // fire clicking on pencil button
-    fireEvent.click(screen.getByTestId("editForm"));
-
-    expect(screen.getByRole("textbox")).toBeInTheDocument();
-})
-
-test("todo edit form should display todo", () => {
-    const id = "234";
-    const todo = "wash towels";
-    render(<Todo id={id} todo={todo} />);
-
-    // fire clicking on pencil button
-    fireEvent.click(screen.getByTestId("editForm"));
-
-    expect(screen.getByRole("textbox").value).toBe(todo);
-})
-
-
-test("todo label should change when edited", () => {
-    const id = "234";
-    const todo = "wash towels";
-    render(<Todo id={id} todo={todo} />);
-
-    const newTodo = "test";
-
-    // fire clicking on pencil button
-    fireEvent.click(screen.getByTestId("editForm"));
-
-    // fire changing of todo text
-    const editInputElem = screen.getByRole("textbox");
-    fireEvent.change(editInputElem, { target: { value: newTodo } });
+    it("renders the todo's label", () => {
+        const { label } = renderTodoScreen();
     
-    expect(editInputElem.value).toBe(newTodo);
+        expect(label).toBeInTheDocument();
+    })
+
+    it("does not render the edit form for the todo", () => {
+        const { editForm } = renderTodoScreen();
+    
+        expect(editForm).not.toBeInTheDocument();
+    })
+
+    it("does not render the todo label while editing", () => {
+        const { label, pencilButton } = renderTodoScreen();
+    
+        // fire clicking on Edit button
+        fireEvent.click(pencilButton);
+    
+        expect(label).not.toBeInTheDocument();
+    
+    })
+
+    it("renders edit form after clicking on pencil button", () => {
+        const { pencilButton } = renderTodoScreen();
+    
+        // fire clicking on pencil button
+        fireEvent.click(pencilButton);
+    
+        expect(screen.getByRole("textbox")).toBeInTheDocument();
+    })
+
+    it("displays todo label in edit input box", () => {
+        const { todo, pencilButton } = renderTodoScreen();
+    
+        // fire clicking on pencil button
+        fireEvent.click(pencilButton);
+    
+        expect(screen.getByRole("textbox").value).toBe(todo);
+    })
+
+    it("changes todo label in input textbox", () => {
+        const { pencilButton } = renderTodoScreen();
+    
+        const newTodo = "test";
+    
+        // fire clicking on pencil button
+        fireEvent.click(pencilButton);
+    
+        // fire changing of todo text
+        const editInputElem = screen.getByRole("textbox");
+        fireEvent.change(editInputElem, { target: { value: newTodo } });
+        
+        expect(editInputElem.value).toBe(newTodo);
+    })
+
+    it("does not render todo Edit form after edited todo is saved", () => {
+        const { pencilButton, editTodo} = renderTodoScreen();
+    
+        // fire clicking on pencil button
+        fireEvent.click(pencilButton);
+    
+        //fire clicking on Edit button
+        fireEvent.click(screen.getByTestId("editSave"));
+    
+        expect(editTodo).toBeCalledTimes(1);
+        expect(screen.queryByRole("form")).not.toBeInTheDocument();
+    })
+
+    it("does not render todo when delete button is clicked",  () => {
+        const { deleteButton, deleteTodo } = renderTodoScreen();
+    
+        //fire clicking on trash button
+        fireEvent.click(deleteButton);
+    
+        //deleteTodo function called
+        expect(deleteTodo).toBeCalledTimes(1);
+    
+    })
 })
 
-//mock function passed in component's props
-const editTodo = jest.fn();
 
-test("todoEdit should not be rendered after edit saved", () => {
-    const id = "234";
-    const todo = "wash towels";
-    render(<Todo id={id} todo={todo} editTodo={editTodo} />);
 
-    // fire clicking on pencil button
-    fireEvent.click(screen.getByTestId("editForm"));
 
-    //fire clicking on Edit button
-    fireEvent.click(screen.getByTestId("editSave"));
-
-    expect(editTodo).toBeCalledTimes(1);
-    expect(screen.queryByRole("form")).not.toBeInTheDocument();
-})
-
-const deleteTodo = jest.fn();
-
-test("todo should disappear when delete clicked", () => {
-    const id = "234";
-    const todo = "wash towels";
-    render(<Todo id={id} todo={todo} editTodo={editTodo} deleteTodo={deleteTodo} />);
-
-    //fire clicking on trash button
-    fireEvent.click(screen.getByTestId("delete"));
-
-    expect(deleteTodo).toBeCalledTimes(1);
-
-    //expect(screen.queryByText(todo)).not.toBeInTheDocument();
-
-})
 
 
 
