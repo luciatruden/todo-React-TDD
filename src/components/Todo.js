@@ -26,7 +26,7 @@ function Todo(props){
     }
     const todoLabel = 
         <div className="Todo">
-            <div className="Todo-label" id={id}>{todoState.todo}</div>
+            <div data-testid ="todoLabel" className="Todo-label" id={id}>{todoState.todo}</div>
             <i data-testid="editForm" className="fa-solid fa-pencil" onClick={handleEditing}></i>
             <i data-testid="delete" className="fa-solid fa-trash" onClick={handleDelete}></i>
         </div>;
@@ -36,7 +36,8 @@ function Todo(props){
             <form>
                 <input className="Todo-editInput" type="text" 
                         defaultValue={todoState.todo}
-                        onChange={handleEdit}></input>
+                        onChange={handleEdit}
+                        placeholder={todoState.todo} ></input>
                 <button data-testid="editSave" className="Todo-editButton" onClick={handleSave}>EDIT</button>
             </form>
         </div>

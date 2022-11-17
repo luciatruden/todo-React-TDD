@@ -6,12 +6,18 @@ import NewTodoForm from "./NewTodoForm";
 
 function TodoList(props) {
 
-    const [todoList, setTodoList] = useState({todos: [
-                                                {id: uuidv4(), todo: "make beds"},
-                                                {id: uuidv4(), todo: "clean windows"},
-                                                {id: uuidv4(), todo: "go shopping"},
-                                                {id: uuidv4(), todo: "go to gym"},
-                                            ]})
+    const { todos } = props;
+
+    const todoObjects = todos.map((td) => ({id: uuidv4(), todo: td}));
+    const [todoList, setTodoList] = useState({todos: todoObjects});
+
+
+    // const [todoList, setTodoList] = useState({todos: [
+    //                                             {id: uuidv4(), todo: "make beds"},
+    //                                             {id: uuidv4(), todo: "clean windows"},
+    //                                             {id: uuidv4(), todo: "go shopping"},
+    //                                             {id: uuidv4(), todo: "go to gym"},
+    //                                         ]})
 
     function editTodo(todo){
         setTodoList(currSt => ({...currSt, todos: currSt.todos.map( 
