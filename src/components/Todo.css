@@ -13,6 +13,7 @@
 .Todo-label {
     padding: 0 50px;
     width: 250px;
+    text-decoration-line: line-through;
 }
 
 .fa-solid {

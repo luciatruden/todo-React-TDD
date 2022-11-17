@@ -5,6 +5,7 @@ function Todo(props){
     const { id, todo, editTodo, deleteTodo } = props;
 
     const [editing, setEditing] = useState(false);
+    const [crossedOut, setCrossedOut] = useState(false);
     const [todoState, setTodoState] = useState({id: id, todo: todo});
 
     function handleEditing(evt){
@@ -24,9 +25,15 @@ function Todo(props){
     function handleDelete(evt){
         deleteTodo(todoState);
     }
+
+    function handleCrossOut(evt){
+        setCrossedOut(!crossedOut);
+    }
     const todoLabel = 
         <div className="Todo">
-            <div data-testid ="todoLabel" className="Todo-label" id={id}>{todoState.todo}</div>
+            <div data-testid ="todoLabel" className="Todo-label" id={id}
+                style={{textDecorationLine: crossedOut? "line-through" : "none"}}
+                onClick={handleCrossOut}>{todoState.todo}</div>
             <i data-testid="editForm" className="fa-solid fa-pencil" onClick={handleEditing}></i>
             <i data-testid="delete" className="fa-solid fa-trash" onClick={handleDelete}></i>
         </div>;

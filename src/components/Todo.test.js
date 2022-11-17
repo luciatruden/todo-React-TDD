@@ -103,6 +103,20 @@ describe('Todo', () => {
         expect(deleteTodo).toBeCalledTimes(1);
     
     })
+
+    it("displays todo label with text-decoration-line set to none", () => {
+        const { label } = renderTodoScreen();
+
+        expect(label).not.toHaveStyle({textDecorationLine: "line-through"});
+
+    })
+
+    it("crosses out todo label when clicked on", () => {
+        const { label } = renderTodoScreen();
+
+        fireEvent.click(label);
+        expect(label).toHaveStyle({textDecorationLine: "line-through"});
+    })
 })
 
 
