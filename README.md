@@ -1,6 +1,7 @@
-# Getting Started with Create React App
+# React Todo App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Simple todo React app following TDD with React Testing Library.
+
 
 ## Available Scripts
 
