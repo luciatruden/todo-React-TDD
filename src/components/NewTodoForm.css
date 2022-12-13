@@ -5,4 +5,9 @@
     border: 1px solid white;
     color: white;
     padding: 5px;
+    height: 30px;
+}
+
+.NewTodoForm-input {
+    height: 25px;
 }

@@ -21,9 +21,9 @@ function NewTodoForm(props){
 
     return(
         <div className="NewTodoForm">
-            <h2>New Todo</h2>
+            <h2>Add new todo</h2>
             <form>
-                <input type="text" placeholder="New Todo" 
+                <input className="NewTodoForm-input" type="text" placeholder="New Todo" 
                     value={newTodo} 
                     onChange={handleChange} ></input>
                 <button disabled={!newTodo} 
